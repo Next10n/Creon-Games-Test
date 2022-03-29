@@ -1,19 +1,17 @@
-﻿namespace Code.Core
+﻿using Code.StaticData;
+
+namespace Code.Core
 {
     public class RectMeshGenerator : IRectMeshGenerator
     {
-        private readonly int _width;
-        private readonly int _height;
+        private readonly IStaticDataService _staticDataService;
 
-        public RectMeshGenerator(int width, int height)
+        public RectMeshGenerator(IStaticDataService staticDataService)
         {
-            _width = width;
-            _height = height;
+            _staticDataService = staticDataService;
         }
         
-        public RectMesh CreateMesh()
-        {
-            return new RectMesh(_width, _height);
-        }
+        public RectMesh CreateMesh() =>
+            new RectMesh(_staticDataService.Data.Width, _staticDataService.Data.Height);
     }
 }

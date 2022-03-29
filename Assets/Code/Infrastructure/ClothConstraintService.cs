@@ -1,18 +1,18 @@
 ﻿using Code.Core;
+using Code.StaticData;
 using UnityEngine;
 
 namespace Code.Infrastructure
 {
     public class ClothConstraintService : IClothConstraintService
     {
-        private readonly float _minConstraint;
-        private readonly float _maxConstraint;
+        private readonly IStaticDataService _staticDataService;
 
-        public ClothConstraintService(float minConstraint, float maxConstraint)
+        public ClothConstraintService(IStaticDataService staticDataService)
         {
-            _minConstraint = minConstraint;
-            _maxConstraint = maxConstraint;
+            _staticDataService = staticDataService;
         }
+
 
         public void ApplyConstraints(Cloth firstCloth, Cloth secondCloth, BrokenLine brokenLine)
         {
@@ -30,7 +30,7 @@ namespace Code.Infrastructure
         {
             ClothSkinningCoefficient[] coefficients = cloth.coefficients;
             for(int i = 0; i < coefficients.Length; i++)
-                coefficients[i].maxDistance = Mathf.Lerp(_maxConstraint, _minConstraint, distances[i] / maxDistance);
+                coefficients[i].maxDistance = Mathf.Lerp(_staticDataService.Data.MaxConstraint, _staticDataService.Data.MinConstraint, distances[i] / maxDistance);
 
             cloth.coefficients = coefficients;
 
