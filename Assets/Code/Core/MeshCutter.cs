@@ -56,11 +56,15 @@ namespace Code.Core
                 vertices = leftVertices.ToArray(),
                 triangles = leftTriangles.ToArray()
             };
+            
+            leftMesh.RecalculateNormals();
 
             rightMesh = new Mesh() {
                 vertices = rightVertices.ToArray(),
                 triangles = rightTriangles.ToArray()
             };
+            
+            rightMesh.RecalculateNormals();
 
             void AddTriangles(List<Vector3> vertices, List<int> triangles, int i, int j)
             {

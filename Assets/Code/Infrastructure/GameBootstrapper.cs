@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Code.Infrastructure.StateMachine;
+using UnityEngine;
 using Zenject;
 
 namespace Code.Infrastructure

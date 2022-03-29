@@ -1,7 +1,6 @@
-﻿using Code.Core;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Code.Infrastructure
+namespace Code.Core
 {
     public interface IClothConstraintService
     {

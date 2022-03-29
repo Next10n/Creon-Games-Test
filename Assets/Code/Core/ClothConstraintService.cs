@@ -1,8 +1,7 @@
-﻿using Code.Core;
-using Code.StaticData;
+﻿using Code.StaticData;
 using UnityEngine;
 
-namespace Code.Infrastructure
+namespace Code.Core
 {
     public class ClothConstraintService : IClothConstraintService
     {
