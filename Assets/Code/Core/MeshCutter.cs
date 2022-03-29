@@ -1,15 +1,16 @@
 ﻿using System.Collections.Generic;
+using Code.StaticData;
 using UnityEngine;
 
 namespace Code.Core
 {
     public class MeshCutter : IMeshCutter
     {
-        private readonly int _minBorderDistance;
+        private readonly IStaticDataService _staticDataService;
 
-        public MeshCutter(int minBorderDistance)
+        public MeshCutter(IStaticDataService staticDataService)
         {
-            _minBorderDistance = minBorderDistance;
+            _staticDataService = staticDataService;
         }
 
         public void Cut(RectMesh rectMesh, out Mesh leftMesh, out Mesh rightMesh, out BrokenLine brokenLine)
@@ -152,10 +153,10 @@ namespace Code.Core
         
         private int NextXRectPoint(int currentX, RectMesh rectMesh)
         {
-            if(currentX < _minBorderDistance)
+            if(currentX < _staticDataService.Data.CutBorderDistance)
                 return ++currentX;
 
-            if(currentX >= rectMesh.Width - _minBorderDistance)
+            if(currentX >= rectMesh.Width - _staticDataService.Data.CutBorderDistance)
                 return --currentX;
 
             return currentX + (Random.Range(0, 2) == 0 ? -1 : 1);

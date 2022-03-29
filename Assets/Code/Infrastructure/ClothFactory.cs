@@ -1,24 +1,23 @@
 ﻿using Code.Core;
+using Code.StaticData;
 using UnityEngine;
 
 namespace Code.Infrastructure
 {
     public class ClothFactory : IClothFactory
     {
-        private readonly Material _material;
+        private readonly IStaticDataService _staticDataService;
 
-        public ClothFactory(Material material)
+        public ClothFactory(IStaticDataService staticDataService)
         {
-            _material = material;
+            _staticDataService = staticDataService;
         }
-
-
+        
         public Cloth Create(string name, Mesh mesh, BrokenLine brokenLine)
         {
             GameObject gameObject = new GameObject(name);
-            // gameObject.AddComponent<MeshFilter>().mesh = mesh;
             SkinnedMeshRenderer skinnedMeshRenderer = gameObject.AddComponent<SkinnedMeshRenderer>();
-            skinnedMeshRenderer.material = _material;
+            skinnedMeshRenderer.material = _staticDataService.Data.Material;
             skinnedMeshRenderer.sharedMesh = mesh;
             Cloth cloth = gameObject.AddComponent<Cloth>();
 
