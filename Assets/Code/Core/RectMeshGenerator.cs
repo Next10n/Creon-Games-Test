@@ -1,8 +1,6 @@
-﻿using UnityEngine;
-
-namespace Code.Core
+﻿namespace Code.Core
 {
-    public class RectMeshGenerator : MonoBehaviour
+    public class RectMeshGenerator : IRectMeshGenerator
     {
         private readonly int _width;
         private readonly int _height;

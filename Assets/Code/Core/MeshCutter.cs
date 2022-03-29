@@ -3,17 +3,16 @@ using UnityEngine;
 
 namespace Code.Core
 {
-    public class MeshCutter
+    public class MeshCutter : IMeshCutter
     {
         private readonly int _minBorderDistance;
 
         public MeshCutter(int minBorderDistance)
         {
             _minBorderDistance = minBorderDistance;
-
         }
-        
-        private void Cut(RectMesh rectMesh, out Mesh leftMesh, out Mesh rightMesh, out BrokenLine brokenLine)
+
+        public void Cut(RectMesh rectMesh, out Mesh leftMesh, out Mesh rightMesh, out BrokenLine brokenLine)
         {
             brokenLine = new BrokenLine();
             int pointX = Random.Range(1, rectMesh.Width - 1);
