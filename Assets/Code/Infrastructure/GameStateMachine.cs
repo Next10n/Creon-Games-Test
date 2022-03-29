@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Code.AssetManagement;
 using Code.Core;
 using Code.StaticData;
 
@@ -9,15 +10,15 @@ namespace Code.Infrastructure
     {
         private readonly Dictionary<Type, IState> _states;
 
-        public GameStateMachine(
-            IRectMeshGenerator rectMeshGenerator,
+        public GameStateMachine(IRectMeshGenerator rectMeshGenerator,
             IMeshCutter meshCutter,
             IClothFactory clothFactory,
             IClothConstraintService clothConstraintService,
-            IStaticDataService staticDataService)
+            IStaticDataService staticDataService, 
+            IAssetProvider assetProvider)
         {
             _states = new Dictionary<Type, IState>() {
-                [typeof(BootstrapState)] = new BootstrapState(rectMeshGenerator, meshCutter, clothFactory, clothConstraintService, staticDataService),
+                [typeof(BootstrapState)] = new BootstrapState(rectMeshGenerator, meshCutter, clothFactory, clothConstraintService, staticDataService, assetProvider),
             };
         }
 

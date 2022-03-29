@@ -1,4 +1,5 @@
-﻿using Code.Core;
+﻿using Code.AssetManagement;
+using Code.Core;
 using Code.StaticData;
 using Zenject;
 
@@ -14,6 +15,7 @@ namespace Code.Infrastructure
             Container.Bind<IClothFactory>().To<ClothFactory>().AsSingle();
             Container.Bind<IClothConstraintService>().To<ClothConstraintService>().AsSingle();
             Container.Bind<IStaticDataService>().To<StaticDataService>().AsSingle();
+            Container.Bind<IAssetProvider>().To<AssetProvider>().AsSingle();
         }
     }
 }
