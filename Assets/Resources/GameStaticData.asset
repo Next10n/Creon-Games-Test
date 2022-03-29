@@ -12,10 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a339b83e65294e4a8ab2c6580bd814bd, type: 3}
   m_Name: GameStaticData
   m_EditorClassIdentifier: 
-  Width: 15
-  Height: 12
-  CutBorderDistance: 2
+  Width: 25
+  Height: 50
+  CutBorderDistance: 5
   Material: {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
-  Spread: 4
+  Spread: 8
   MinConstraint: 0
   MaxConstraint: 2
+  Acceleration: 5
+  MoveSpeed: 5
+  RotateSpeed: 200
+  ReplayDelay: 1

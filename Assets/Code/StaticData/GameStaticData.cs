@@ -16,5 +16,13 @@ namespace Code.StaticData
         public float Spread;
         public float MinConstraint;
         public float MaxConstraint;
+        public float Acceleration;
+
+        [Header("Player")]
+        public float MoveSpeed;
+        public float RotateSpeed;
+
+        [Header("Game")]
+        public float ReplayDelay;
     }
 }

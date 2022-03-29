@@ -1,8 +1,7 @@
-﻿using Code.Core;
-using Code.StaticData;
+﻿using Code.StaticData;
 using UnityEngine;
 
-namespace Code.Infrastructure
+namespace Code.Core
 {
     public class ClothFactory : IClothFactory
     {
@@ -20,7 +19,8 @@ namespace Code.Infrastructure
             skinnedMeshRenderer.material = _staticDataService.Data.Material;
             skinnedMeshRenderer.sharedMesh = mesh;
             Cloth cloth = gameObject.AddComponent<Cloth>();
-
+            cloth.useGravity = false;
+            cloth.randomAcceleration = new Vector3(_staticDataService.Data.Acceleration, _staticDataService.Data.Acceleration, _staticDataService.Data.Acceleration);
             return cloth;
         }
     }
