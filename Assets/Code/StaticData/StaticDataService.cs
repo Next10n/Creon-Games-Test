@@ -1,5 +1,4 @@
 ﻿using Code.AssetManagement;
-using UnityEngine;
 
 namespace Code.StaticData
 {
@@ -7,9 +6,14 @@ namespace Code.StaticData
     {
         public GameStaticData Data { get; private set; }
 
-        public void Load()
+        private readonly IAssetProvider _assetProvider;
+
+        public StaticDataService(IAssetProvider assetProvider)
         {
-            Data = Resources.Load<GameStaticData>(AssetPaths.StaticData);
+            _assetProvider = assetProvider;
         }
+
+        public void Load() =>
+            Data = _assetProvider.Load<GameStaticData>(AssetPaths.StaticDataPath);
     }
 }

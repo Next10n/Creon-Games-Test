@@ -1,4 +1,5 @@
-﻿using Code.Core;
+﻿using Code.AssetManagement;
+using Code.Core;
 using Code.Extensions;
 using Code.StaticData;
 using UnityEngine;
@@ -12,23 +13,24 @@ namespace Code.Infrastructure
         private readonly IClothFactory _clothFactory;
         private readonly IClothConstraintService _clothConstraintService;
         private readonly IStaticDataService _staticDataService;
+        private readonly IAssetProvider _assetProvider;
 
-        private float _spreadingDistance = 4f;
-        
         public BootstrapState(IRectMeshGenerator rectMeshGenerator, IMeshCutter meshCutter, IClothFactory clothFactory, IClothConstraintService clothConstraintService, 
-            IStaticDataService staticDataService)
+            IStaticDataService staticDataService, IAssetProvider assetProvider)
         {
             _rectMeshGenerator = rectMeshGenerator;
             _meshCutter = meshCutter;
             _clothFactory = clothFactory;
             _clothConstraintService = clothConstraintService;
             _staticDataService = staticDataService;
+            _assetProvider = assetProvider;
         }
 
         public void Enter()
         {
             LoadStaticData();
             CreateCloths();
+            SpawnPlayer();
         }
 
         private void LoadStaticData() =>
@@ -44,10 +46,15 @@ namespace Code.Infrastructure
             _clothConstraintService.ApplyConstraints(leftCloth, rightCloth, brokenLine);
         }
 
+        private void SpawnPlayer()
+        {
+            Player player = GameObject.Instantiate(_assetProvider.Load<Player>(AssetPaths.PlayerPath));
+        }
+
         private void Spread(Transform transform1, Transform transform2)
         {
-            transform1.AddX(_spreadingDistance / -2f);
-            transform2.AddX(_spreadingDistance / 2f);
+            transform1.AddX(_staticDataService.Data.Spread / -2f);
+            transform2.AddX(_staticDataService.Data.Spread / 2f);
         }
     }
 }
