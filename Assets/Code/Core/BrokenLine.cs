@@ -11,5 +11,6 @@ namespace Code.Core
 
         public void AddPoint(Vector3 point) =>
             _points.Add(point);
+
     }
 }

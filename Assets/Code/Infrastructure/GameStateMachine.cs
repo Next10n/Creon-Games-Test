@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using Code.Core;
 
 namespace Code.Infrastructure
 {
-    public class GameStateMachine
+    public class GameStateMachine : IGameStateMachine
     {
         private readonly Dictionary<Type, IState> _states;
 
-        public GameStateMachine()
+        public GameStateMachine(IRectMeshGenerator rectMeshGenerator, IMeshCutter meshCutter, IClothFactory clothFactory, IClothConstraintService clothConstraintService)
         {
             _states = new Dictionary<Type, IState>() {
-                [typeof(BootstrapState)] = new BootstrapState(),
+                [typeof(BootstrapState)] = new BootstrapState(rectMeshGenerator, meshCutter, clothFactory, clothConstraintService),
             };
         }
 
