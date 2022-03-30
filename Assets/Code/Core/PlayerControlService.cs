@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using Code.AssetManagement;
-using Code.Extensions;
 using Code.Infrastructure;
 using Code.StaticData;
 using UnityEngine;
@@ -24,6 +23,7 @@ namespace Code.Core
 
         private float _moveOffset;
         private Coroutine _swipe;
+        private Vector3 _currentTarget;
 
         public PlayerControlService(IAssetProvider assetProvider, IStaticDataService staticDataService, ICoroutineRunner coroutineRunner)
         {
@@ -52,6 +52,7 @@ namespace Code.Core
             if(TargetReached)
                 GetNextTarget();
 
+            if(_swipe != null) return;
             _player.transform.position = Vector3.MoveTowards(_player.transform.position, _targetPosition, Time.deltaTime * _staticDataService.Data.MoveSpeed);
             _player.transform.rotation = Quaternion.RotateTowards(_player.transform.rotation, _targetRotation, Time.deltaTime * _staticDataService.Data.RotateSpeed);
         }
@@ -60,9 +61,12 @@ namespace Code.Core
         {
             if(_moveOffset > -SwipeDistance)
             {
-                _moveOffset = -SwipeDistance;
                 if(_swipe == null)
-                    _coroutineRunner.StartCoroutine(Swipe());
+                {
+                    _moveOffset -= SwipeDistance;
+                    CalculateTargetPosition();
+                    _swipe = _coroutineRunner.StartCoroutine(Swipe());
+                }
             }
 
         }
@@ -71,9 +75,12 @@ namespace Code.Core
         {
             if(_moveOffset < SwipeDistance)
             {
-                _moveOffset = SwipeDistance;
                 if(_swipe == null)
-                    _coroutineRunner.StartCoroutine(Swipe());
+                {
+                    _moveOffset += SwipeDistance;
+                    CalculateTargetPosition();
+                    _swipe = _coroutineRunner.StartCoroutine(Swipe());
+                }
             }
 
         }
@@ -86,10 +93,13 @@ namespace Code.Core
                 return;
             }
 
-            _targetPosition = _path.Dequeue();
-            _targetPosition = new Vector3(_targetPosition.x + _moveOffset, _targetPosition.y, _targetPosition.z);
+            _currentTarget = _path.Dequeue();
+            CalculateTargetPosition();
             _targetRotation = Quaternion.LookRotation(_targetPosition - _player.transform.position);
         }
+
+        private void CalculateTargetPosition() =>
+            _targetPosition = new Vector3(_currentTarget.x + _moveOffset, _currentTarget.y, _currentTarget.z);
 
         private void CreatePath(BrokenLine brokenLine)
         {
@@ -100,12 +110,11 @@ namespace Code.Core
         private IEnumerator Swipe()
         {
             float swipeTime = 0;
+            Vector3 start = _player.transform.position;
+            Vector3 endTarget = new Vector3(start.x + _moveOffset, start.y, start.z); 
             while (swipeTime < _staticDataService.Data.SwipeTime)
             {
-                float currentOffset = _moveOffset * (Time.deltaTime / _staticDataService.Data.SwipeTime);
-                _targetPosition = new Vector3(_targetPosition.x + currentOffset, _targetPosition.y, _targetPosition.z);
-                _player.transform.AddX(currentOffset);
-
+                _player.transform.position = Vector3.Lerp(start, endTarget, swipeTime / _staticDataService.Data.SwipeTime);
                 swipeTime += Time.deltaTime;
                 yield return null;
             }

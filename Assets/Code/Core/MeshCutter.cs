@@ -7,6 +7,8 @@ namespace Code.Core
     public class MeshCutter : IMeshCutter
     {
         private readonly IStaticDataService _staticDataService;
+        private int _cutDirection = 1;
+        private int _currentCutDistance;
 
         public MeshCutter(IStaticDataService staticDataService)
         {
@@ -16,7 +18,7 @@ namespace Code.Core
         public void Cut(RectMesh rectMesh, out Mesh leftMesh, out Mesh rightMesh, out BrokenLine brokenLine)
         {
             brokenLine = new BrokenLine();
-            int pointX = Random.Range(1, rectMesh.Width - 1);
+            int pointX = rectMesh.Width / 2;
             List<Vector3> leftVertices = new List<Vector3>();
             List<Vector3> rightVertices = new List<Vector3>();
             
@@ -157,14 +159,29 @@ namespace Code.Core
         
         private int NextXRectPoint(int currentX, RectMesh rectMesh)
         {
-            if(currentX < _staticDataService.Data.CutBorderDistance)
-                return ++currentX;
-
-            if(currentX >= rectMesh.Width - _staticDataService.Data.CutBorderDistance)
-                return --currentX;
-
-            return currentX + (Random.Range(0, 2) == 0 ? -1 : 1);
+            if(currentX < _staticDataService.Data.CutBorderDistance || currentX >= rectMesh.Width - _staticDataService.Data.CutBorderDistance)
+            {
+                ChangeDirection();
+                currentX += _cutDirection;
+                return currentX;
+            }
+            
+            if(_currentCutDistance >= _staticDataService.Data.MinCutDistance && _currentCutDistance <= _staticDataService.Data.MaxCutDistance)
+            {
+                if((Random.Range(0, 2) == 0))
+                    ChangeDirection();
+            }
+                
+            currentX += _cutDirection;
+            return currentX;
         }
+
+        private void ChangeDirection()
+        {
+            _cutDirection *= -1;
+            _currentCutDistance = 0;
+        }
+        
 
         
     }

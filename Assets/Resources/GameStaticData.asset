@@ -20,6 +20,8 @@ MonoBehaviour:
   MinConstraint: 0
   MaxConstraint: 2
   Acceleration: 5
+  MinCutDistance: 3
+  MaxCutDistance: 6
   MoveSpeed: 5
   RotateSpeed: 500
   ReplayDelay: 1
