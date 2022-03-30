@@ -21,5 +21,8 @@ MonoBehaviour:
   MaxConstraint: 2
   Acceleration: 5
   MoveSpeed: 5
-  RotateSpeed: 200
+  RotateSpeed: 500
   ReplayDelay: 1
+  MinSwipe: 250
+  SwipeTime: 0.1
+  SwipePercentage: 0.75

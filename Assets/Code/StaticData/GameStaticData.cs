@@ -24,5 +24,11 @@ namespace Code.StaticData
 
         [Header("Game")]
         public float ReplayDelay;
+
+        [Header("Input")]
+        public float MinSwipe;
+        public float SwipeTime;
+        [Range(0.5f, 1f)]
+        public float SwipePercentage;
     }
 }
