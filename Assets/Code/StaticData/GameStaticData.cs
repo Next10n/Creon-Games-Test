@@ -18,6 +18,10 @@ namespace Code.StaticData
         public float MaxConstraint;
         public float Acceleration;
 
+        [Header("Cut")]
+        public int MinCutDistance;
+        public int MaxCutDistance;
+
         [Header("Player")]
         public float MoveSpeed;
         public float RotateSpeed;
