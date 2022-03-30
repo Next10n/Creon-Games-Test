@@ -1,6 +1,7 @@
 ﻿using Code.AssetManagement;
 using Code.Core;
 using Code.Infrastructure.StateMachine;
+using Code.Inputs;
 using Code.SceneManagement;
 using Code.StaticData;
 using Zenject;
@@ -24,6 +25,7 @@ namespace Code.Infrastructure
             Container.Bind<IUpdateService>().To<UpdateService>().AsSingle();
             Container.Bind<ICoroutineRunner>().FromInstance(CoroutineRunner).AsSingle();
             Container.Bind<ISceneLoader>().To<SceneLoader>().AsSingle();
+            Container.Bind<ISwipePlayerService>().To<MouseSwipePlayer>().AsSingle();
         }
     }
 }

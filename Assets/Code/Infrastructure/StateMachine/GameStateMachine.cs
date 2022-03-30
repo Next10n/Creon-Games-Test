@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Code.Core;
+using Code.Inputs;
 using Code.SceneManagement;
 using Code.StaticData;
 
@@ -12,16 +13,16 @@ namespace Code.Infrastructure.StateMachine
 
         private IState _currentState;
 
-        public GameStateMachine(
-            IRectMeshGenerator rectMeshGenerator,
+        public GameStateMachine(IRectMeshGenerator rectMeshGenerator,
             IMeshCutter meshCutter,
             IClothFactory clothFactory,
             IClothConstraintService clothConstraintService,
             IStaticDataService staticDataService,
             IPlayerControlService playerControlService,
             IUpdateService updateService,
-            ISceneLoader sceneLoader, 
-            ICoroutineRunner coroutineRunner)
+            ISceneLoader sceneLoader,
+            ICoroutineRunner coroutineRunner, 
+            ISwipePlayerService swipePlayerService)
         {
             _states = new Dictionary<Type, IState>() {
                 [typeof(BootstrapState)] = new BootstrapState(staticDataService, this),
@@ -34,7 +35,7 @@ namespace Code.Infrastructure.StateMachine
                         playerControlService,
                         this,
                         sceneLoader),
-                [typeof(GameLoopState)] = new GameLoopState(playerControlService, updateService),
+                [typeof(GameLoopState)] = new GameLoopState(playerControlService, updateService, swipePlayerService),
                 [typeof(RestartGameState)] = new RestartGameState(coroutineRunner, staticDataService, this)
             };
         }

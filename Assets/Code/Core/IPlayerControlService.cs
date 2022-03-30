@@ -7,5 +7,7 @@ namespace Code.Core
         event Action PathPassed;
         void SpawnPlayer(BrokenLine brokenLine);
         void Move();
+        void SwipeLeft();
+        void SwipeRight();
     }
 }

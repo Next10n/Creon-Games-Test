@@ -1,5 +1,5 @@
 ﻿using Code.Core;
-using UnityEngine;
+using Code.Inputs;
 
 namespace Code.Infrastructure.StateMachine
 {
@@ -7,11 +7,13 @@ namespace Code.Infrastructure.StateMachine
     {
         private readonly IPlayerControlService _playerControlService;
         private readonly IUpdateService _updateService;
+        private readonly ISwipePlayerService _swipePlayerService;
 
-        public GameLoopState(IPlayerControlService playerControlService, IUpdateService updateService)
+        public GameLoopState(IPlayerControlService playerControlService, IUpdateService updateService, ISwipePlayerService swipePlayerService)
         {
             _playerControlService = playerControlService;
             _updateService = updateService;
+            _swipePlayerService = swipePlayerService;
         }
 
         public void Enter() =>
@@ -20,7 +22,10 @@ namespace Code.Infrastructure.StateMachine
         public void Exit() =>
             _updateService.Unregister(this);
 
-        public void Update() =>
+        public void Update()
+        {
             _playerControlService.Move();
+            _swipePlayerService.DetectSwipe();
+        }
     }
 }
